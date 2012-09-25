@@ -1,4 +1,4 @@
-function [Data,Atts,Gatts] = readnetcdf(inPath,inFile)
+function [Data,Atts,GAtts] = readnetcdf(inPath,inFile)
 %READNETCDF Read NetCDF variables, variable attributes, and global
 %attributes.
 %   [DATA,ATTS,GATTS] = READNETCDF(INPATH,INFILE) reads the NetCDF file 
@@ -44,7 +44,7 @@ end
 for i=0:nGlobalAtts-1
     gAttName = netcdf.inqAttName(ncID,netcdf.getConstant('NC_GLOBAL'),i);
     gAttValue = netcdf.getAtt(ncID,netcdf.getConstant('NC_GLOBAL'),gAttName);
-    Gatts.(gAttName) = gAttValue;
+    GAtts.(gAttName) = gAttValue;
 end
 
 netcdf.close(ncID)

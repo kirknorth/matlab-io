@@ -44,7 +44,21 @@ end
 for i=0:nGlobalAtts-1
     gAttName = netcdf.inqAttName(ncID,netcdf.getConstant('NC_GLOBAL'),i);
     gAttValue = netcdf.getAtt(ncID,netcdf.getConstant('NC_GLOBAL'),gAttName);
-    GAtts.(gAttName) = gAttValue;
+    try
+        GAtts.(gAttName) = gAttValue;
+    catch
+        GAtts.(removewhitespace(gAttName)) = gAttValue;
+    end
 end
 
 netcdf.close(ncID)
+
+function [string] = removewhitespace(string)
+%REMOVEWHITESPACE Remove whitespace and replace it with underscores
+%   [STRING] = REMOVEWHITESPACE(STRING) removes any whitespace found in STRING
+%   and replaces it with underscores.
+%
+%   Author: Kirk North
+%   Created: 2012.09.24
+
+string = regexprep(string,'\s','_');

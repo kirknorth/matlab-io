@@ -11,7 +11,7 @@ function [Data,Atts,GAtts] = readnetcdf(inPath,inFile)
 %   source code.
 %
 %   See also netcdf
-%
+
 %   Copyright (C) 2011 Kirk North
 %   
 %   This program is free software: you can redistribute it and/or modify
@@ -27,19 +27,19 @@ function [Data,Atts,GAtts] = readnetcdf(inPath,inFile)
 %   You should have received a copy of the GNU General Public License
 %   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-%% Open NetCDF
+%% Open NetCDF.
 
 ncID = netcdf.open(strcat(inPath,inFile),'NC_NOWRITE');
 [nDims,nVars,nGlobalAtts,unlimDim] = netcdf.inq(ncID);
 
-%% NetCDF dimensions
+%% NetCDF dimensions.
 
 for i = 0:nDims-1
     [dimName,dimLength] = netcdf.inqDim(ncID,i);
     fprintf('Dimension name and length = %s; %.f\n',dimName,dimLength)
 end
 
-%% NetCDF variables and variable attributes
+%% NetCDF variables and variable attributes.
 
 for i = 0:nVars-1
     [varName,dType,dimID,nAtts] = netcdf.inqVar(ncID,i);
@@ -56,7 +56,7 @@ for i = 0:nVars-1
     end
 end
 
-%% Global attributes
+%% Global attributes.
 
 for i = 0:nGlobalAtts-1
     gAttName = netcdf.inqAttName(ncID,netcdf.getConstant('NC_GLOBAL'),i);
@@ -68,6 +68,6 @@ for i = 0:nGlobalAtts-1
     end
 end
 
-%% Close NetCDF
+%% Close NetCDF.
 
 netcdf.close(ncID)

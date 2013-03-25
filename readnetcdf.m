@@ -27,27 +27,24 @@ function [Data,Atts,GAtts] = readnetcdf(inPath,inFile)
 %   You should have received a copy of the GNU General Public License
 %   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-%% Open NetCDF.
+% Open NetCDF.
+ncId = netcdf.open(strcat(inPath,inFile),'NC_NOWRITE');
+[nDims,nVars,nGlobalAtts,unlimDim] = netcdf.inq(ncId);
 
-ncID = netcdf.open(strcat(inPath,inFile),'NC_NOWRITE');
-[nDims,nVars,nGlobalAtts,unlimDim] = netcdf.inq(ncID);
-
-%% NetCDF dimensions.
-
+% Gather NetCDF dimensions.
 for i = 0:nDims-1
-    [dimName,dimLength] = netcdf.inqDim(ncID,i);
-    fprintf('Dimension name and length = %s; %.f\n',dimName,dimLength)
+    [dimName,dimLen] = netcdf.inqDim(ncId,i);
+    fprintf('Dimension name and length = %s; %.f\n',dimName,dimLen)
 end
 
-%% NetCDF variables and variable attributes.
-
+% Gather NetCDF variables and variable attributes.
 for i = 0:nVars-1
-    [varName,dType,dimID,nAtts] = netcdf.inqVar(ncID,i);
-    varData = netcdf.getVar(ncID,i,class(dType));
+    [varName,dType,dimId,nAtts] = netcdf.inqVar(ncId,i);
+    varData = netcdf.getVar(ncId,i,class(dType));
     Data.(varName) = varData;
     for j = 0:nAtts-1
-        attName = netcdf.inqAttName(ncID,i,j);
-        attValue = netcdf.getAtt(ncID,i,attName);
+        attName = netcdf.inqAttName(ncId,i,j);
+        attValue = netcdf.getAtt(ncId,i,attName);
         if (strcmp(attName,'_FillValue'))
             Atts.(varName).('FillValue_') = attValue;
         else
@@ -56,18 +53,12 @@ for i = 0:nVars-1
     end
 end
 
-%% Global attributes.
-
+% Gather global attributes.
 for i = 0:nGlobalAtts-1
-    gAttName = netcdf.inqAttName(ncID,netcdf.getConstant('NC_GLOBAL'),i);
-    gAttValue = netcdf.getAtt(ncID,netcdf.getConstant('NC_GLOBAL'),gAttName);
-    try
-        GAtts.(gAttName) = gAttValue;
-    catch
-        GAtts.(regexprep(gAttName,'\s','_')) = gAttValue;
-    end
+    gAttName = netcdf.inqAttName(ncId,netcdf.getConstant('NC_GLOBAL'),i);
+    gAttValue = netcdf.getAtt(ncId,netcdf.getConstant('NC_GLOBAL'),gAttName);
+    GAtts.(regexprep(gAttName,'\s','_')) = gAttValue; % Adds underscores where ever any whitespace exits.
 end
 
-%% Close NetCDF.
-
-netcdf.close(ncID)
+% Close NetCDF.
+netcdf.close(ncId)

@@ -57,7 +57,7 @@ end
 for i = 0:nGlobalAtts-1
     gAttName = netcdf.inqAttName(ncId,netcdf.getConstant('NC_GLOBAL'),i);
     gAttValue = netcdf.getAtt(ncId,netcdf.getConstant('NC_GLOBAL'),gAttName);
-    GAtts.(regexprep(gAttName,'\s','_')) = gAttValue; % Adds underscores where ever any whitespace exits.
+    GAtts.(regexprep(gAttName,'\s','_')) = gAttValue; % Adds underscores where ever any whitespace exists.
 end
 
 % Close NetCDF.

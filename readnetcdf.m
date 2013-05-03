@@ -34,13 +34,13 @@ ncId = netcdf.open(strcat(inPath,inFile),'NC_NOWRITE');
 % Gather NetCDF dimensions.
 for i = 0:nDims-1
     [dimName,dimLen] = netcdf.inqDim(ncId,i);
-    fprintf('Dimension name and length = %s; %.f\n',dimName,dimLen)
+    fprintf('Dimension name and length = %s; %d\n',dimName,dimLen)
 end
 
 % Gather NetCDF variables and variable attributes.
 for i = 0:nVars-1
-    [varName,dType,dimId,nAtts] = netcdf.inqVar(ncId,i);
-    varData = netcdf.getVar(ncId,i,class(dType));
+    [varName,xType,dimId,nAtts] = netcdf.inqVar(ncId,i);
+    varData = netcdf.getVar(ncId,i);
     Data.(varName) = varData;
     for j = 0:nAtts-1
         attName = netcdf.inqAttName(ncId,i,j);

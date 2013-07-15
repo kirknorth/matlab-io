@@ -2,8 +2,8 @@ function [Data, Atts, Gatts] = readnetcdf(fname)
 %READNETCDF Read NetCDF variables, variable attributes, and global
 %attributes.
 %   [Data, Atts, Gatts] = READNETCDF(fname) reads the NetCDF file fname
-%   and stores all variable data in the structure Data, all variable 
-%	attribute information in the structure Atts, and all global attribute 
+%   and stores all variable data in the structure Data, all variable
+%	attribute information in the structure Atts, and all global attribute
 %	information in the structure Gatts.
 %
 %   This function is able to read any NetCDF convention (e.g. CF, NCAR-RAF,

@@ -3,8 +3,8 @@ function [Data, Atts, Gatts] = readnetcdf(fname)
 %attributes.
 %   [Data, Atts, Gatts] = READNETCDF(fname) reads the NetCDF file fname
 %   and stores all variable data in the structure Data, all variable
-%	attribute information in the structure Atts, and all global attribute
-%	information in the structure Gatts.
+%   attribute information in the structure Atts, and all global attribute
+%   information in the structure Gatts.
 %
 %   This function is able to read any NetCDF convention (e.g. CF, NCAR-RAF,
 %   CDC, etc) and does not require the user to make any changes to the 
@@ -57,7 +57,7 @@ end
 for i = 0:nGatts-1
     gAttName = netcdf.inqAttName(nc, netcdf.getConstant('NC_GLOBAL'), i);
     gAttValue = netcdf.getAtt(nc, netcdf.getConstant('NC_GLOBAL'), gAttName);
-    Gatts.(regexprep(gAttName, '\s', '_')) = gAttValue; % Adds underscores where ever any whitespace exists
+    Gatts.(regexprep(gAttName, '\s', '_')) = gAttValue; % Adds underscores whereever any whitespace exists
 end
 
 % Close NetCDF
